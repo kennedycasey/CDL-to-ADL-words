@@ -1,0 +1,105 @@
+survey_word,cdi_word,word,variant,pair,question,type,cogsci
+choochoo,choo choo,choo choo,CDL,choochoo_train,train_child,onomatopoeia,n
+train,train,train,ADL,choochoo_train,train_child,onomatopoeia,n
+vroomvroom,vroom,vroom,CDL,vroomvroom_car,car_child,onomatopoeia,n
+car,car,car,ADL,vroomvroom_car,car_child,onomatopoeia,n
+quackquack,quack quack,quack quack,CDL,quackquack_duck,duck_child,onomatopoeia,n
+duck,duck,duck,ADL,quackquack_duck,duck_child,onomatopoeia,n
+baabaa,baa baa,baa baa,CDL,baabaa_sheep,sheep_child,onomatopoeia,n
+sheep,sheep,sheep,ADL,baabaa_sheep,sheep_child,onomatopoeia,n
+woofwoof,woof woof,woof woof,CDL,woofwoof_dog,dog_child,onomatopoeia,n
+dog,dog,dog,ADL,woofwoof_dog,dog_child,onomatopoeia,n
+cockadoodledoo,cockadoodledoo,cockadoodledoo,CDL,cockadoodledoo_rooster,rooster_child,onomatopoeia,n
+rooster,rooster,rooster,ADL,cockadoodledoo_rooster,rooster_child,onomatopoeia,n
+kitty,kitty,kitty,CDL,kitty_cat,cat_child,other,y
+cat,cat,cat,ADL,kitty_cat,cat_child,other,y
+bunny,bunny,bunny,CDL,bunny_rabbit,rabbit_child,other,y
+rabbit,rabbit,rabbit,ADL,bunny_rabbit,rabbit_child,other,y
+froggy,froggy,froggy,CDL,froggy_frog,frog_child,diminutive,y
+frog,frog,frog,ADL,froggy_frog,frog_child,diminutive,y
+horsey,horsey,horsey,CDL,horsey_horse,horse_child,diminutive,y
+horse,horse,horse,ADL,horsey_horse,horse_child,diminutive,y
+piggy,piggy,piggy,CDL,piggy_pig,pig_child,diminutive,y
+pig,pig,pig,ADL,piggy_pig,pig_child,diminutive,y
+fishy,fishy (animal),fishy,CDL,fishy_fish,fish_child,diminutive,n
+fish,fish,fish,ADL,fishy_fish,fish_child,diminutive,n
+mousey,mousey (animal),mousey,CDL,mousey_mouse,mouse_child,diminutive,n
+mouse,mouse,mouse,ADL,mousey_mouse,mouse_child,diminutive,n
+duckie,duckie,duckie,CDL,duckie_duck,duck_child2,diminutive,y
+duck,duck,duck,ADL,duckie_duck,duck_child2,diminutive,y
+doggy,doggie,doggy,CDL,doggy_dog,dog_child2,diminutive,y
+dog,dog,dog,ADL,doggy_dog,dog_child2,diminutive,y
+birdie,birdie,birdie,CDL,birdie_bird,bird_child,diminutive,y
+bird,bird,bird,ADL,birdie_bird,bird_child,diminutive,y
+dolly,dolly,dolly,CDL,dolly_doll,doll_child,diminutive,y
+doll,doll,doll,ADL,dolly_doll,doll_child,diminutive,y
+teddy,teddybear,teddybear,CDL,teddy_bear,bear_child,other,n
+bear,bear,bear,ADL,teddy_bear,bear_child,other,n
+blankie,blankie,blankie,CDL,blankie_blanket,blanket_child,diminutive,y
+blanket,blanket,blanket,ADL,blankie_blanket,blanket_child,diminutive,y
+potty,potty,potty,CDL,potty_bathroom,bathroom_child,other,y
+bathroom,bathroom,bathroom,ADL,potty_bathroom,bathroom_child,other,y
+tummy,tummy,tummy,CDL,tummy_stomach,stomach_child,other,y
+stomach,stomach,stomach,ADL,tummy_stomach,stomach_child,other,y
+mommy,mommy*,mommy,CDL,mommy_mom,mom_child,diminutive,y
+mom,mom,mom,ADL,mommy_mom,mom_child,diminutive,y
+daddy,daddy*,daddy,CDL,daddy_dad,dad_child,diminutive,y
+dad,dad,dad,ADL,daddy_dad,dad_child,diminutive,y
+sissy,sissy,sissy,CDL,sissy_sister,sister_child,other,n
+sister,sister,sister,ADL,sissy_sister,sister_child,other,n
+auntie,auntie,auntie,CDL,auntie_aunt,aunt_child,diminutive,n
+aunt,aunt,aunt,ADL,auntie_aunt,aunt_child,diminutive,n
+nightnight,night night,night night,CDL,nightnight_goodnight,goodnight_child,other,y
+goodnight,goodnight,goodnight,ADL,nightnight_goodnight,goodnight_child,other,y
+choochoo,choo choo,choo choo,CDL,choochoo_train,train_caregiver,onomatopoeia,n
+train,train,train,ADL,choochoo_train,train_caregiver,onomatopoeia,n
+vroomvroom,vroom,vroom,CDL,vroomvroom_car,car_caregiver,onomatopoeia,n
+car,car,car,ADL,vroomvroom_car,car_caregiver,onomatopoeia,n
+quackquack,quack quack,quack quack,CDL,quackquack_duck,duck_caregiver,onomatopoeia,n
+duck,duck,duck,ADL,quackquack_duck,duck_caregiver1,onomatopoeia,n
+baabaa,baa baa,baa baa,CDL,baabaa_sheep,sheep_caregiver,onomatopoeia,n
+sheep,sheep,sheep,ADL,baabaa_sheep,sheep_caregiver,onomatopoeia,n
+woofwoof,woof woof,woof woof,CDL,woofwoof_dog,dog_caregiver,onomatopoeia,n
+dog,dog,dog,ADL,woofwoof_dog,dog_caregiver,onomatopoeia,n
+cockadoodledoo,cockadoodledoo,cockadoodledoo,CDL,cockadoodledoo_rooster,rooster_caregiver,onomatopoeia,n
+rooster,rooster,rooster,ADL,cockadoodledoo_rooster,rooster_caregiver,onomatopoeia,n
+kitty,kitty,kitty,CDL,kitty_cat,cat_caregiver,other,y
+cat,cat,cat,ADL,kitty_cat,cat_caregiver,other,y
+bunny,bunny,bunny,CDL,bunny_rabbit,rabbit_caregiver,other,y
+rabbit,rabbit,rabbit,ADL,bunny_rabbit,rabbit_caregiver,other,y
+froggy,froggy,froggy,CDL,froggy_frog,frog_caregiver,diminutive,y
+frog,frog,frog,ADL,froggy_frog,frog_caregiver,diminutive,y
+horsey,horsey,horsey,CDL,horsey_horse,horse_caregiver,diminutive,y
+horse,horse,horse,ADL,horsey_horse,horse_caregiver,diminutive,y
+piggy,piggy,piggy,CDL,piggy_pig,pig_caregiver,diminutive,y
+pig,pig,pig,ADL,piggy_pig,pig_caregiver,diminutive,y
+fishy,fishy (animal),fishy,CDL,fishy_fish,fish_caregiver,diminutive,n
+fish,fish,fish,ADL,fishy_fish,fish_caregiver,diminutive,n
+mousey,mousey (animal),mousey,CDL,mousey_mouse,mouse_caregiver,diminutive,n
+mouse,mouse,mouse,ADL,mousey_mouse,mouse_caregiver,diminutive,n
+duckie,duckie,duckie,CDL,duckie_duck,duck_caregiver2,diminutive,y
+duck,duck,duck,ADL,duckie_duck,duck_caregiver2,diminutive,y
+doggy,doggie,doggy,CDL,doggy_dog,dog_caregiver2,diminutive,y
+dog,dog,dog,ADL,doggy_dog,dog_caregiver2,diminutive,y
+birdie,birdie,birdie,CDL,birdie_bird,bird_caregiver,diminutive,y
+bird,bird,bird,ADL,birdie_bird,bird_caregiver,diminutive,y
+dolly,dolly,dolly,CDL,dolly_doll,doll_caregiver,diminutive,y
+doll,doll,doll,ADL,dolly_doll,doll_caregiver,diminutive,y
+teddy,teddybear,teddybear,CDL,teddy_bear,bear_caregiver,other,n
+bear,bear,bear,ADL,teddy_bear,bear_caregiver,other,n
+blankie,blankie,blankie,CDL,blankie_blanket,blanket_caregiver,diminutive,y
+blanket,blanket,blanket,ADL,blankie_blanket,blanket_caregiver,diminutive,y
+potty,potty,potty,CDL,potty_bathroom,bathroom_caregiver,other,y
+bathroom,bathroom,bathroom,ADL,potty_bathroom,bathroom_caregiver,other,y
+tummy,tummy,tummy,CDL,tummy_stomach,stomach_caregiver,other,y
+stomach,stomach,stomach,ADL,tummy_stomach,stomach_caregiver,other,y
+mommy,mommy*,mommy,CDL,mommy_mom,mom_caregiver,diminutive,y
+mom,mom,mom,ADL,mommy_mom,mom_caregiver,diminutive,y
+daddy,daddy*,daddy,CDL,daddy_dad,dad_caregiver,diminutive,y
+dad,dad,dad,ADL,daddy_dad,dad_caregiver,diminutive,y
+sissy,sissy,sissy,CDL,sissy_sister,sister_caregiver,other,n
+sister,sister,sister,ADL,sissy_sister,sister_caregiver,other,n
+auntie,auntie,auntie,CDL,auntie_aunt,aunt_caregiver,diminutive,n
+aunt,aunt,aunt,ADL,auntie_aunt,aunt_caregiver,diminutive,n
+nightnight,night night,night night,CDL,nightnight_goodnight,goodnight_caregiver,other,y
+goodnight,goodnight,goodnight,ADL,nightnight_goodnight,goodnight_caregiver,other,y
