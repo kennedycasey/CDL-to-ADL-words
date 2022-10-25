@@ -7,7 +7,7 @@ library(broom.mixed)
 # read in data
 data <- read_csv("survey/anon-data/variant-probabilities.csv") %>%
   mutate(id = as.character(id))
-metadata <- read_csv("survey/anon-data/item-metadata.csv")
+metadata <- read_csv("item-metadata.csv")
 
 # transform probabilities for binomial regression (0s and 1s for variant types)
 model.data <- data %>%

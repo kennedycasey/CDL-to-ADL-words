@@ -1,0 +1,105 @@
+survey_word,cdi_word,word,variant,pair,question,type,cogsci,search_dictionary
+choochoo,choo choo,choo choo,CDL,choochoo_train,train_child,onomatopoeia,n,NA
+train,train,train,ADL,choochoo_train,train_child,onomatopoeia,n,NA
+vroomvroom,vroom,vroom,CDL,vroomvroom_car,car_child,onomatopoeia,n,NA
+car,car,car,ADL,vroomvroom_car,car_child,onomatopoeia,n,NA
+quackquack,quack quack,quack quack,CDL,quackquack_duck,duck_child,onomatopoeia,n,NA
+duck,duck,duck,ADL,quackquack_duck,duck_child,onomatopoeia,n,NA
+baabaa,baa baa,baa baa,CDL,baabaa_sheep,sheep_child,onomatopoeia,n,NA
+sheep,sheep,sheep,ADL,baabaa_sheep,sheep_child,onomatopoeia,n,NA
+woofwoof,woof woof,woof woof,CDL,woofwoof_dog,dog_child,onomatopoeia,n,NA
+dog,dog,dog,ADL,woofwoof_dog,dog_child,onomatopoeia,n,NA
+cockadoodledoo,cockadoodledoo,cockadoodledoo,CDL,cockadoodledoo_rooster,rooster_child,onomatopoeia,n,NA
+rooster,rooster,rooster,ADL,cockadoodledoo_rooster,rooster_child,onomatopoeia,n,NA
+kitty,kitty,kitty,CDL,kitty_cat,cat_child,other,y, kitty | kitty's | kitties | kitties' 
+cat,cat,cat,ADL,kitty_cat,cat_child,other,y, cat | cat's | cats | cats' 
+bunny,bunny,bunny,CDL,bunny_rabbit,rabbit_child,other,y, bunny | bunny's | bunnies | bunnies' 
+rabbit,rabbit,rabbit,ADL,bunny_rabbit,rabbit_child,other,y, rabbit | rabbit's | rabbits | rabbits' 
+froggy,froggy,froggy,CDL,froggy_frog,frog_child,diminutive,y, froggy | froggie | froggy's | froggie's | froggies | froggies' 
+frog,frog,frog,ADL,froggy_frog,frog_child,diminutive,y, frog | frog's | frogs | frogs' 
+horsey,horsey,horsey,CDL,horsey_horse,horse_child,diminutive,y, horsey | horsie | horsey's | horsie's | horseys | horsies | horseys' | horsies' 
+horse,horse,horse,ADL,horsey_horse,horse_child,diminutive,y, horse | horse's | horses | horses' 
+piggy,piggy,piggy,CDL,piggy_pig,pig_child,diminutive,y, piggy | piggie | piggy's | piggie's | piggies | piggies' 
+pig,pig,pig,ADL,piggy_pig,pig_child,diminutive,y, pig | pig's | pigs | pigs' 
+fishy,fishy (animal),fishy,CDL,fishy_fish,fish_child,diminutive,n, fishy | fishie | fishy's | fishie's | fishies | fishies' 
+fish,fish,fish,ADL,fishy_fish,fish_child,diminutive,n, fish | fish's 
+mousey,mousey (animal),mousey,CDL,mousey_mouse,mouse_child,diminutive,n, mousey | mousie | mousey's | mousie's | mouseys | mousies | mouseys' | mousies' 
+mouse,mouse,mouse,ADL,mousey_mouse,mouse_child,diminutive,n, mouse | mouse's | mice | mice's 
+duckie,duckie,duckie,CDL,duckie_duck,duck_child2,diminutive,y, duckie | ducky | duckie's | ducky's | duckies | duckies' 
+duck,duck,duck,ADL,duckie_duck,duck_child2,diminutive,y, duck | duck's | ducks | ducks' 
+doggy,doggie,doggy,CDL,doggy_dog,dog_child2,diminutive,y, doggy | doggie | doggy's | doggie's | doggies | doggies' 
+dog,dog,dog,ADL,doggy_dog,dog_child2,diminutive,y, dog | dog's | dogs | dogs' 
+birdie,birdie,birdie,CDL,birdie_bird,bird_child,diminutive,y, birdie | birdy | birdie's | birdy's | birdies | birdies' 
+bird,bird,bird,ADL,birdie_bird,bird_child,diminutive,y, bird | bird's | birds | birds' 
+dolly,dolly,dolly,CDL,dolly_doll,doll_child,diminutive,y, dolly | dollie | dolly's | dollie's | dollies | dollies' 
+doll,doll,doll,ADL,dolly_doll,doll_child,diminutive,y, doll | doll's | dolls | dolls' 
+teddy,teddybear,teddybear,CDL,teddy_bear,bear_child,other,n, teddy | teddy's | teddies | teddies' | teddybear | teddybear's | teddybears | teddy_bear | teddy_bear's | teddy_ bears | teddy+bear | teddy+bears | teddy+bear's 
+bear,bear,bear,ADL,teddy_bear,bear_child,other,n, bear | bear's | bears | bears' 
+blankie,blankie,blankie,CDL,blankie_blanket,blanket_child,diminutive,y, blankie | blanky | blankie's | blanky's | blankies | blankies' 
+blanket,blanket,blanket,ADL,blankie_blanket,blanket_child,diminutive,y, blanket | blanket's | blanket | blankets' 
+potty,potty,potty,CDL,potty_bathroom,bathroom_child,other,y, potty | potty's | potties | potties' 
+bathroom,bathroom,bathroom,ADL,potty_bathroom,bathroom_child,other,y, bathroom | bathroom's | bathrooms | bathrooms' 
+tummy,tummy,tummy,CDL,tummy_stomach,stomach_child,other,y, tummy | tummy's | tummies | tummies' 
+stomach,stomach,stomach,ADL,tummy_stomach,stomach_child,other,y, stomach | stomach's | stomachs | stomach's 
+mommy,mommy*,mommy,CDL,mommy_mom,mom_child,diminutive,y, mommy | mommie | mommy's | mommie's | mommies | mommies' 
+mom,mom,mom,ADL,mommy_mom,mom_child,diminutive,y, mom | mom's | moms | moms' 
+daddy,daddy*,daddy,CDL,daddy_dad,dad_child,diminutive,y, daddy | daddie | daddy's | daddie's | daddies | daddies' 
+dad,dad,dad,ADL,daddy_dad,dad_child,diminutive,y, dad | dad's | dads | dads' 
+sissy,sissy,sissy,CDL,sissy_sister,sister_child,other,n, sissy | sissie | sissy's | sissie's | sissies | sissies' 
+sister,sister,sister,ADL,sissy_sister,sister_child,other,n, sister | sister's | sisters | sisters' 
+auntie,auntie,auntie,CDL,auntie_aunt,aunt_child,diminutive,n, auntie | aunty | auntie's | aunty's | aunties | aunties' 
+aunt,aunt,aunt,ADL,auntie_aunt,aunt_child,diminutive,n, aunt | aunt's | aunts | aunts' 
+nightnight,night night,night night,CDL,nightnight_goodnight,goodnight_child,other,y, night night | night+night | night_night | nightnight | night nights | night+nights | night_nights | nightnights . 
+goodnight,goodnight,goodnight,ADL,nightnight_goodnight,goodnight_child,other,y, goodnight | good+night | good night | good_night | good-night 
+choochoo,choo choo,choo choo,CDL,choochoo_train,train_caregiver,onomatopoeia,n,NA
+train,train,train,ADL,choochoo_train,train_caregiver,onomatopoeia,n,NA
+vroomvroom,vroom,vroom,CDL,vroomvroom_car,car_caregiver,onomatopoeia,n,NA
+car,car,car,ADL,vroomvroom_car,car_caregiver,onomatopoeia,n,NA
+quackquack,quack quack,quack quack,CDL,quackquack_duck,duck_caregiver,onomatopoeia,n,NA
+duck,duck,duck,ADL,quackquack_duck,duck_caregiver1,onomatopoeia,n,NA
+baabaa,baa baa,baa baa,CDL,baabaa_sheep,sheep_caregiver,onomatopoeia,n,NA
+sheep,sheep,sheep,ADL,baabaa_sheep,sheep_caregiver,onomatopoeia,n,NA
+woofwoof,woof woof,woof woof,CDL,woofwoof_dog,dog_caregiver,onomatopoeia,n,NA
+dog,dog,dog,ADL,woofwoof_dog,dog_caregiver,onomatopoeia,n,NA
+cockadoodledoo,cockadoodledoo,cockadoodledoo,CDL,cockadoodledoo_rooster,rooster_caregiver,onomatopoeia,n,NA
+rooster,rooster,rooster,ADL,cockadoodledoo_rooster,rooster_caregiver,onomatopoeia,n,NA
+kitty,kitty,kitty,CDL,kitty_cat,cat_caregiver,other,y, kitty | kitty's | kitties | kitties' 
+cat,cat,cat,ADL,kitty_cat,cat_caregiver,other,y, cat | cat's | cats | cats' 
+bunny,bunny,bunny,CDL,bunny_rabbit,rabbit_caregiver,other,y, bunny | bunny's | bunnies | bunnies' 
+rabbit,rabbit,rabbit,ADL,bunny_rabbit,rabbit_caregiver,other,y, rabbit | rabbit's | rabbits | rabbits' 
+froggy,froggy,froggy,CDL,froggy_frog,frog_caregiver,diminutive,y, froggy | froggie | froggy's | froggie's | froggies | froggies' 
+frog,frog,frog,ADL,froggy_frog,frog_caregiver,diminutive,y, frog | frog's | frogs | frogs' 
+horsey,horsey,horsey,CDL,horsey_horse,horse_caregiver,diminutive,y, horsey | horsie | horsey's | horsie's | horseys | horsies | horseys' | horsies' 
+horse,horse,horse,ADL,horsey_horse,horse_caregiver,diminutive,y, horse | horse's | horses | horses' 
+piggy,piggy,piggy,CDL,piggy_pig,pig_caregiver,diminutive,y, piggy | piggie | piggy's | piggie's | piggies | piggies' 
+pig,pig,pig,ADL,piggy_pig,pig_caregiver,diminutive,y, pig | pig's | pigs | pigs' 
+fishy,fishy (animal),fishy,CDL,fishy_fish,fish_caregiver,diminutive,n, fishy | fishie | fishy's | fishie's | fishies | fishies' 
+fish,fish,fish,ADL,fishy_fish,fish_caregiver,diminutive,n, fish | fish's 
+mousey,mousey (animal),mousey,CDL,mousey_mouse,mouse_caregiver,diminutive,n, mousey | mousie | mousey's | mousie's | mouseys | mousies | mouseys' | mousies' 
+mouse,mouse,mouse,ADL,mousey_mouse,mouse_caregiver,diminutive,n, mouse | mouse's | mice | mice's 
+duckie,duckie,duckie,CDL,duckie_duck,duck_caregiver2,diminutive,y, duckie | ducky | duckie's | ducky's | duckies | duckies' 
+duck,duck,duck,ADL,duckie_duck,duck_caregiver2,diminutive,y, duck | duck's | ducks | ducks' 
+doggy,doggie,doggy,CDL,doggy_dog,dog_caregiver2,diminutive,y, doggy | doggie | doggy's | doggie's | doggies | doggies' 
+dog,dog,dog,ADL,doggy_dog,dog_caregiver2,diminutive,y, dog | dog's | dogs | dogs' 
+birdie,birdie,birdie,CDL,birdie_bird,bird_caregiver,diminutive,y, birdie | birdy | birdie's | birdy's | birdies | birdies' 
+bird,bird,bird,ADL,birdie_bird,bird_caregiver,diminutive,y, bird | bird's | birds | birds' 
+dolly,dolly,dolly,CDL,dolly_doll,doll_caregiver,diminutive,y, dolly | dollie | dolly's | dollie's | dollies | dollies' 
+doll,doll,doll,ADL,dolly_doll,doll_caregiver,diminutive,y, doll | doll's | dolls | dolls' 
+teddy,teddybear,teddybear,CDL,teddy_bear,bear_caregiver,other,n, teddy | teddy's | teddies | teddies' | teddybear | teddybear's | teddybears | teddy_bear | teddy_bear's | teddy_ bears | teddy+bear | teddy+bears | teddy+bear's 
+bear,bear,bear,ADL,teddy_bear,bear_caregiver,other,n, bear | bear's | bears | bears' 
+blankie,blankie,blankie,CDL,blankie_blanket,blanket_caregiver,diminutive,y, blankie | blanky | blankie's | blanky's | blankies | blankies' 
+blanket,blanket,blanket,ADL,blankie_blanket,blanket_caregiver,diminutive,y, blanket | blanket's | blanket | blankets' 
+potty,potty,potty,CDL,potty_bathroom,bathroom_caregiver,other,y, potty | potty's | potties | potties' 
+bathroom,bathroom,bathroom,ADL,potty_bathroom,bathroom_caregiver,other,y, bathroom | bathroom's | bathrooms | bathrooms' 
+tummy,tummy,tummy,CDL,tummy_stomach,stomach_caregiver,other,y, tummy | tummy's | tummies | tummies' 
+stomach,stomach,stomach,ADL,tummy_stomach,stomach_caregiver,other,y, stomach | stomach's | stomachs | stomach's 
+mommy,mommy*,mommy,CDL,mommy_mom,mom_caregiver,diminutive,y, mommy | mommie | mommy's | mommie's | mommies | mommies' 
+mom,mom,mom,ADL,mommy_mom,mom_caregiver,diminutive,y, mom | mom's | moms | moms' 
+daddy,daddy*,daddy,CDL,daddy_dad,dad_caregiver,diminutive,y, daddy | daddie | daddy's | daddie's | daddies | daddies' 
+dad,dad,dad,ADL,daddy_dad,dad_caregiver,diminutive,y, dad | dad's | dads | dads' 
+sissy,sissy,sissy,CDL,sissy_sister,sister_caregiver,other,n, sissy | sissie | sissy's | sissie's | sissies | sissies' 
+sister,sister,sister,ADL,sissy_sister,sister_caregiver,other,n, sister | sister's | sisters | sisters' 
+auntie,auntie,auntie,CDL,auntie_aunt,aunt_caregiver,diminutive,n, auntie | aunty | auntie's | aunty's | aunties | aunties' 
+aunt,aunt,aunt,ADL,auntie_aunt,aunt_caregiver,diminutive,n, aunt | aunt's | aunts | aunts' 
+nightnight,night night,night night,CDL,nightnight_goodnight,goodnight_caregiver,other,y, night night | night+night | night_night | nightnight | night nights | night+nights | night_nights | nightnights . 
+goodnight,goodnight,goodnight,ADL,nightnight_goodnight,goodnight_caregiver,other,y, goodnight | good+night | good night | good_night | good-night 
