@@ -33,31 +33,35 @@ summary.input <- input %>%
   group_by(type, speaker_type, predictor) %>%
   summarize(mean = mean(value, na.rm = TRUE), 
             se = sd(value, na.rm = TRUE)/sqrt(n())) %>%
-  mutate(predictor = factor(predictor, levels = c("lex.complexity", "lex.rarity", 
+  mutate(predictor = factor(predictor, levels = c("lex.rarity", "lex.complexity", 
                                                   "n.words", "n.verbs"), 
-                          labels = c("Lexical\ncomplexity", "Lexical\nrarity", 
+                          labels = c("Lexical\nrarity", "Lexical\ncomplexity",
                                      "Utterance\nlength", "Syntactic\ncomplexity")), 
-         type = factor(type, levels = c("child (CDL)", "child (ADL)",
-                                                 "caregiver (CDL)", "caregiver (ADL)")), 
-         speaker_type = factor(speaker_type, levels = c("child", "caregiver")))
+         speaker = factor(speaker_type, levels = c("child", "caregiver")), 
+         variant = ifelse(str_detect(type, "CDL"), "CDL", "ADL"), 
+         variant = factor(variant, levels = c("CDL", "ADL")))
 
-ggplot(summary.input, aes(x = speaker_type, y = mean, fill = type, color = type)) + 
+ggplot(summary.input, aes(x = speaker, y = mean, fill = speaker, 
+                          color = speaker, pattern = variant)) + 
   facet_wrap(.~predictor, ncol = 2) +
-  geom_bar(stat = "identity", position = "dodge") +
-  geom_errorbar(aes(x = speaker_type, ymin = mean - 1.96*se, ymax = mean + 1.96*se, group = type), 
-                color = "black", width = 0.15, size = 0.25, position = position_dodge(width = 0.9)) +
-  scale_color_manual(values = speaker.colors) +
-  scale_fill_manual(values = speaker.colors) +
+  geom_bar_pattern(stat = "identity", position = "dodge", 
+                   pattern_color = "white", 
+                   pattern_fill = "white") +
+  geom_errorbar(aes(x = speaker, ymin = mean - 1.96*se, ymax = mean + 1.96*se, group = variant), 
+                color = "black", width = 0.15, size = 0.5, position = position_dodge(width = 0.9)) +
+  scale_pattern_manual(values = c(ADL = "none", CDL = "stripe")) +
+  scale_color_manual(values = speaker.colors2) +
+  scale_fill_manual(values = speaker.colors2) +
   scale_y_continuous(limits = c(-0.5, 0.5)) +
+  guides(color = "none", fill = "none") +
   labs(y = "Mean Feature Value (scaled)") +
-  theme_test(base_size = 15) + 
+  theme_test(base_size = 25) + 
   theme(legend.position = "bottom",
         legend.key.size = unit(4, "mm"),
         axis.title.x = element_blank(), 
         legend.title = element_blank(), 
-        legend.text = element_text(size = 10))
-ggsave("corpus/figs/predictors.png", width = 6, height = 5, dpi = 600)
-
+        legend.text = element_text(size = 20))
+ggsave("corpus/figs/predictors.png", width = 10, height = 8, dpi = 600)
 
 input <- read_csv("corpus/data/combined-other.csv") %>%
   filter(speaker_role %in% c("Mother", "Father")) %>%
@@ -141,11 +145,11 @@ main.effects <- ggplot(filter(input.models.combined, type == "main_effect"),
   geom_vline(xintercept = 0, size = 0.75, linetype = "dotted", 
              color = "gray", alpha = 0.5) +
   geom_pointrange(aes(x = Estimate, xmin = Estimate - SE, xmax = Estimate + SE, color = speaker), 
-                width = 0, size = 0.5, position = position_dodge(width = 0.25)) + 
+                width = 0, size = 1, position = position_dodge(width = 0.25)) + 
   scale_color_manual(values = speaker.colors2) +
   scale_x_continuous(limits = c(-0.6, 0.6), breaks = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6)) +
   labs(title = "Main Effect", x = "Coefficient Estimate", y = "Linguistic Feature") +
-  theme_test(base_size = 10) +
+  theme_test(base_size = 25) +
   theme(legend.position = "none", 
         plot.title = element_text(hjust = 0.5), 
         axis.title = element_blank(), 
@@ -156,19 +160,19 @@ interactions <- ggplot(filter(input.models.combined, type == "interaction"),
   geom_vline(xintercept = 0, size = 0.75, linetype = "dotted", 
              color = "gray", alpha = 0.5) +
   geom_pointrange(aes(x = Estimate, xmin = Estimate - SE, xmax = Estimate + SE, color = speaker), 
-                  width = 0, size = 0.5, position = position_dodge(width = 0.25)) + 
+                  width = 0, size = 1, position = position_dodge(width = 0.25)) + 
   scale_color_manual(values = speaker.colors2) +
-  scale_x_continuous(limits = c(-0.2, 0.2), breaks = seq(-0.2, 0.2, by = 0.2)) +
+  scale_x_continuous(limits = c(-0.2, 0.2), breaks = seq(-0.2, 0.2, by = 0.1)) +
   labs(title = "Interaction with Age", x = "Coefficient Estimate", y = "Linguistic Feature") +
-  theme_test(base_size = 10) +
+  theme_test(base_size = 25) +
   theme(legend.position = "none", 
         plot.title = element_text(hjust = 0.5), 
         axis.title = element_blank(), 
         axis.text.y = element_blank(), 
         axis.ticks.y = element_blank())
 
-model.fig <- ggarrange(main.effects, interactions, widths = c(4.1, 3.2))
+model.fig <- ggarrange(main.effects, interactions, widths = c(4.3, 3.2))
 
-annotate_figure(model.fig, bottom = textGrob("Coefficient Estimate"),
-                left = textGrob("Linguistic Feature", rot = 90, vjust = 1))
-ggsave("corpus/figs/predictor-model.png", width = 6, height = 5, dpi = 600)
+annotate_figure(model.fig, bottom = textGrob("Coefficient Estimate", gp = gpar(fontsize = 25, face = "bold")),
+                left = textGrob("Linguistic Feature", rot = 90, vjust = 1, gp = gpar(fontsize = 25, face = "bold")))
+ggsave("corpus/figs/predictor-model.png", width = 10, height = 8, dpi = 600)

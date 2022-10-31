@@ -14,8 +14,8 @@ metadata <- read_csv("item-metadata.csv")
 # set colors for plots
 speaker.colors <- c("child (corpus)" = "#235789", 
                     "caregiver (corpus)" = "#0288d1", 
-                    "child (survey)" = "#23773B", 
-                    "caregiver (survey)" = "#23C889")
+                    "child (survey)" = "#C1292E", 
+                    "caregiver (survey)" = "#F8766D")
 
 fig.input.list <- list()
 
@@ -143,7 +143,13 @@ for (measure in c("corpus", "survey")) {
 fig.input.combined <- do.call(rbind, fig.input.list)
 
 fig.input.combined %>%
-  mutate(pair = str_replace(pair, "_", "/")) %>%
+  mutate(pair = str_replace(pair, "_", "/"), 
+         pair = factor(pair, levels = c("birdie/bird", "blankie/blanket", 
+                                        "froggy/frog", "piggy/pig",
+                                        "duckie/duck", "horsey/horse", "kitty/cat",
+                                        "nightnight/goodnight", "dolly/doll", "doggy/dog", 
+                                        "mommy/mom", "tummy/stomach", "potty/bathroom", 
+                                        "daddy/dad", "bunny/rabbit"))) %>%
   ggplot(aes(x = age/12, y = variant, color = speaker, fill = speaker)) +
   facet_wrap(.~pair, ncol = 5) +
   geom_hline(yintercept = 0.5, linetype = "dotted", size = 1) +
