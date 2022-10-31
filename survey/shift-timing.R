@@ -138,3 +138,60 @@ switch.points <- do.call(rbind, switch.points.list) %>%
   rownames_to_column(var = "model") %>%
   rename(., age = `.`) %>%
   write_csv("survey/model-outputs/switch-points.csv")
+
+# correlations ------------------------------------------------------------
+overall.cor <- data %>%
+  left_join(select(metadata, pair, cogsci)) %>%
+  filter(cogsci == "y") %>%
+  select(id, age, pair, speaker, value) %>%
+  distinct() %>%
+  pivot_wider(names_from = speaker, values_from = value) %>%
+  na.omit() %>%
+  group_by(id, age) %>%
+  mutate(count = n()) %>%
+  filter(count >= 2)
+  
+overall.cor.stats <- tidy(cor.test(overall.cor$caregiver, 
+                                   overall.cor$child, 
+                                   method = "spearman")) %>%
+  mutate(estimate = ifelse(p.value < 0.001, 
+                           paste0(round(estimate, digits = 2), "***"),
+                           estimate))
+
+ggplot(overall.cor, aes(x = caregiver, y = child)) + 
+  geom_jitter(alpha = 0.25) + 
+  geom_smooth(method = "lm", 
+              color = speaker.colors[1], 
+              fill = speaker.colors[1]) + 
+  annotate(geom = "label", x = 10, y = 70, 
+           label = paste0("ρ = ", overall.cor.stats$estimate), 
+           color = speaker.colors[1]) +
+  labs(x = "Caregiver ADL", y = "Child CDL") +
+  theme_test(base_size = 25) 
+
+cor.over.age <- data %>%
+  left_join(select(metadata, pair, cogsci)) %>%
+  filter(cogsci == "y") %>%
+  select(id, age, pair, speaker, value) %>%
+  distinct() %>%
+  pivot_wider(names_from = speaker, values_from = value) %>%
+  na.omit() %>%
+  group_by(id, age) %>%
+  mutate(count = n()) %>%
+  filter(count >= 2) %>%
+  summarize(r = tidy(cor.test(caregiver, child, method = "spearman"))$estimate) %>%
+  mutate(age = age/30.437/12)
+
+summary(lm(r ~ age, cor.over.age))
+
+ggplot(cor.over.age, aes(x = age, y = r)) + 
+  geom_point(color = speaker.colors[1],
+             fill = speaker.colors[1]) + 
+  geom_smooth(method = "glm", 
+              color = speaker.colors[1],
+              fill = speaker.colors[1]) +
+  geom_hline(yintercept = 0, linetype = "dotted") + 
+  scale_x_continuous(limits = c(0, 7), breaks = seq(0, 7, by = 1)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Age (years)", y = "Child/Caregiver ADL Correlation") + 
+  theme_test(base_size = 20)
