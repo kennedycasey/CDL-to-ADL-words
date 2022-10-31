@@ -29,8 +29,8 @@ model.data <- bind_rows(model.data.ADL, model.data.CDL) %>%
   left_join(select(metadata, pair, cogsci), by = "pair")
 
 # set colors for plots
-speaker.colors <- c("child" = "#235789", 
-                    "caregiver" = "#0288d1")
+speaker.colors <- c("child" = "#23773B", 
+                    "caregiver" = "#23C889")
 
 model.outputs.list <- list()
 shift.trends.list <- list()
@@ -66,13 +66,13 @@ for (i in c("child", "caregiver")) {
     
     model.type <- paste0(i, "-", j)
     
-    model <- glm(variant ~ age, 
+    model <- glm(variant ~ scale(age), 
                  data = model.input, 
                  family = binomial)
     
     # store model output summary
     model.summary <- tidy(model) %>%
-      filter(term == "age")
+      filter(term == "scale(age)")
     
     # store model-predicted shift trajectory
     trend <- ggpredict(model, c("age [all]")) %>%
@@ -90,36 +90,39 @@ for (i in c("child", "caregiver")) {
     
     ggplot() + 
       geom_smooth(data = model.input,
-                  aes(x = age, y = variant, group = pair),
+                  aes(x = age/12, y = variant, group = pair),
                   method = "glm", method.args = list(family = "binomial"),
                   color = "#F5F5F5", se = FALSE) +
       geom_ribbon(data = trend,
-                  aes(x = x, ymin = conf.low, ymax = conf.high),
+                  aes(x = x/12, ymin = conf.low, ymax = conf.high),
                   fill = speaker.colors[i], alpha = 0.25) +
       geom_line(data = trend,
-                aes(x = x, y = predicted), color = speaker.colors[i], size = 2) +
-      scale_x_continuous(limits = c(0, 84), breaks = seq(0, 84, by = 12)) +
-      labs(x = "Age (months)", y = "Probability of producing ADL variant") +
+                aes(x = x/12, y = predicted), color = speaker.colors[i], size = 2) +
+      scale_x_continuous(limits = c(0, 7), breaks = seq(0, 7, by = 1)) +
+      labs(x = "Age (years)", y = "Probability of producing ADL variant") +
       geom_hline(yintercept = 0.5, linetype = "dotted", size = 1) +
       theme_test(base_size = 15) +
       theme(axis.title = element_text(face = "bold")) +
       coord_cartesian(ylim = c(0, 1))
       ggsave(paste0("survey/figs/", i, "-", j, ".png"), dpi = 300, height = 5, width = 6)
       
-      ggplot(fig.input, 
-             aes(x = age, y = variant, color = speaker, fill = speaker)) +
+      fig.input %>%
+      mutate(pair = str_replace(pair, "_", "/")) %>%
+      ggplot(aes(x = age/12, y = variant, color = speaker, fill = speaker)) +
         facet_wrap(.~pair, ncol = 5) +
         geom_hline(yintercept = 0.5, linetype = "dotted", size = 1) +
-        geom_smooth(method = "glm", method.args = list(family = "binomial")) +
+        geom_smooth(method = "glm", method.args = list(family = "binomial"), size = 3) +
         scale_color_manual(values = speaker.colors) +
         scale_fill_manual(values = speaker.colors) +
-        scale_x_continuous(limits = c(12, 84), breaks = seq(12, 84, by = 12)) +
+        scale_x_continuous(limits = c(0, 7), breaks = seq(0, 7, by = 1)) +
         coord_cartesian(ylim = c(0, 1)) +
-        labs(x = "Age (months)", y = "Probability of producing ADL variant",
+        labs(x = "Age (years)", y = "Probability of producing ADL variant",
              color = "Speaker", fill = "Speaker") +
-        theme_test(base_size = 15) +
-        theme(axis.title = element_text(face = "bold"), legend.title = element_text(face = "bold"))
-      ggsave(paste0("survey/figs/bypair-shift-timing-", j, ".png"), height = fig.height, width = 15, dpi = 300)
+        theme_test(base_size = 45) +
+        theme(axis.title = element_text(face = "bold"), 
+              legend.title = element_text(face = "bold"), 
+              legend.position = "bottom")
+      ggsave(paste0("survey/figs/bypair-shift-timing.png"), height = fig.height, width = 15, dpi = 300)
   }
 }
 model.outputs <- do.call(rbind, model.outputs.list) %>%
