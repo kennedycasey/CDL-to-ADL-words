@@ -91,13 +91,12 @@ mutate(xgb.imp.child, speaker = "child") %>%
         legend.title = element_blank(),
         axis.title.y = element_blank())
 ggsave("corpus/figs/feature-importance.png", width = 6, height = 5, dpi = 600)
-
-
-# explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary", 
+# 
+# explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary",
 #                            base_score = 0.5, trees_idx = NULL)
 # pred.breakdown = explainPredictions(xgb.model, explainer, xgb.test.data)
 # showWaterfall(xgb.model, explainer, xgb.test.data, data.matrix(test[,-variant]),
 #               300, type = "binary")
-# 
-# tree_plot <- xgb.plot.tree(model = xgb.model, trees = 2, plot_width = 1000, 
-#                            plot_height = 1000)
+
+xgb.plot.tree(model = xgb.model, trees = 12, plot_width = 1000,
+              plot_height = 500)
