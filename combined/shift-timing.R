@@ -148,16 +148,19 @@ fig.input.combined %>%
   facet_wrap(.~pair, ncol = 5) +
   geom_hline(yintercept = 0.5, linetype = "dotted", size = 1) +
   geom_smooth(method = "glm", method.args = list(family = "binomial"), 
-              size = 2, se = FALSE) +
+              size = 1.5, se = FALSE) +
   scale_color_manual(values = speaker.colors) +
   scale_fill_manual(values = speaker.colors) +
   scale_x_continuous(limits = c(0, 7), breaks = seq(0, 7, by = 1)) +
   coord_cartesian(ylim = c(0, 1)) +
   labs(x = "Age (years)", y = "Probability of producing ADL variant",
        color = "Speaker", fill = "Speaker") +
-  theme_test(base_size = 23) +
+  guides(color = guide_legend(override.aes = list(size = 5))) +
+  theme_test(base_size = 35) +
   theme(axis.title = element_text(face = "bold"), 
         legend.title = element_blank(), 
-        legend.position = "bottom")
+        legend.position = "bottom", 
+        strip.text = element_text(size = 22), 
+        axis.text = element_text(size = 25))
 ggsave(paste0("combined/figs/bypair-shift-timing.png"), 
-       height = 10, width = 15, dpi = 600, limitsize = FALSE)
+       height = 12, width = 18, dpi = 600, limitsize = FALSE)
