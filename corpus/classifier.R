@@ -55,25 +55,29 @@ for (i in c("child", "caregiver")) {
   assign(paste0("xgb.imp.", i), xgb.imp)
 }
 
-png(file = "corpus/figs/roc.png", 
-    width = 4, height = 4, units = "in", 
-    res = 600)
-plot(10, 10, xlim = c(1, 0), ylim = c(0, 1), 
-     xlab = "Specificity", ylab = "Sensitivity")
-abline(a = c(1,0), b = -1, col = "gray") 
-plot(xgb.roc.child,
-     col = speaker.colors["child"], 
-     add = TRUE) 
-plot(xgb.roc.caregiver,
-     col = speaker.colors["caregiver"], 
-     add = TRUE) 
-text(x = 0.2, y = 0.45, 
-     paste0("AUC = ", round(auc(xgb.roc.child), 2)),
-     col = speaker.colors["child"]) 
-text(x = 0.2, y = 0.35, 
-     paste0("AUC = ", round(auc(xgb.roc.caregiver), 2)), 
-     col = speaker.colors["caregiver"])
-dev.off()
+data.frame(sensitivity = xgb.roc.caregiver$sensitivities, 
+           specificity = xgb.roc.caregiver$specificities, 
+           speaker = "caregiver") %>%
+  bind_rows(data.frame(sensitivity = xgb.roc.child$sensitivities, 
+                       specificity = xgb.roc.child$specificities, 
+                       speaker = "child")) %>%
+  ggplot(aes(x = specificity, y = sensitivity, color = speaker)) + 
+  scale_x_reverse() +
+  geom_point(size = 0.75) + 
+  geom_abline(intercept = 1, linetype = "dotted") + 
+  annotate(geom = "label", x = 0.2, y = 0.45, 
+           label = paste0("AUC: ", round(auc(xgb.roc.child), 2)), 
+           color = speaker.colors["child"], 
+           size = 6) +
+  annotate(geom = "label", x = 0.2, y = 0.35, 
+           label = paste0("AUC: ", round(auc(xgb.roc.caregiver), 2)), 
+           color = speaker.colors["caregiver"], 
+           size = 6) +
+  scale_color_manual(values = speaker.colors) +
+  labs(x = "Specificity", y = "Sensitivity", slope = 1) + 
+  theme_test(base_size = 25) +
+  theme(legend.position = "none")
+ggsave("corpus/figs/roc.png", width = 6, height = 6, dpi = 600)
 
 mutate(xgb.imp.child, speaker = "child") %>%
   bind_rows(mutate(xgb.imp.caregiver, speaker = "caregiver")) %>%
@@ -85,12 +89,12 @@ mutate(xgb.imp.child, speaker = "child") %>%
   geom_bar(stat = "identity", position = "dodge") +
   scale_fill_manual(values = speaker.colors) + 
   labs(x = "Feature Importance") + 
-  theme_test(base_size = 15) +
+  theme_test(base_size = 25) +
   theme(legend.position = c(0.85, 0.12),
         legend.key.size = unit(5, 'mm'),
         legend.title = element_blank(),
         axis.title.y = element_blank())
-ggsave("corpus/figs/feature-importance.png", width = 6, height = 5, dpi = 600)
+ggsave("corpus/figs/feature-importance.png", width = 10, height = 8, dpi = 600)
 # 
 # explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary",
 #                            base_score = 0.5, trees_idx = NULL)
