@@ -7,9 +7,16 @@ library(lme4)
 library(ggeffects)
 library(broom.mixed)
 
+# load corpus data
 childes_utterances = data.table(get_utterances(collection = "Eng-NA"))
-ldp_utterances = data.table(read_csv("corpus/data/ldp-input.csv"))
 metadata <- read_csv("item-metadata.csv")
+
+# run with LDP data? (set ldp.access to TRUE if you have "ldp-input.csv")
+ldp.access <- TRUE
+
+if (ldp.access) {
+  ldp_utterances = data.table(read_csv("corpus/data/ldp-input.csv"))
+}
 
 # set colors for plots
 speaker.colors <- c("child (corpus)" = "#235789", 
@@ -17,8 +24,21 @@ speaker.colors <- c("child (corpus)" = "#235789",
                     "child (survey)" = "#C1292E", 
                     "caregiver (survey)" = "#F8766D")
 
+# create list of items and pairs
+items <- metadata %>%
+  filter(cogsci == "y") %>%
+  pull(survey_word) %>%
+  unique()
+
+pairs <- metadata %>%
+  filter(cogsci == "y") %>%
+  pull(pair) %>%
+  unique()
+
+# create empty list that will be populated with data for figure
 fig.input.list <- list()
 
+# for each method and speaker type, find all utterances with 1+ target items
 for (measure in c("corpus", "survey")) {
   for (i in c("child", "caregiver")) {
     model.type = paste0(i, " (", measure, ")")
@@ -33,26 +53,20 @@ for (measure in c("corpus", "survey")) {
       filter(age < 84 & speaker == i) %>%
       select(gloss, age)
     
-    ldp.utts <- ldp_utterances %>%
-      mutate(speaker = ifelse(speaker == "target_child",
-                              "child", "caregiver")) %>%
-      filter(speaker == i) %>%
-      select(gloss, age)
-    
-    utts <- bind_rows(childes.utts, ldp.utts)
-    
-    items <- metadata %>%
-      filter(cogsci == "y") %>%
-      pull(survey_word) %>%
-      unique()
-    
-    pairs <- metadata %>%
-      filter(cogsci == "y") %>%
-      pull(pair) %>%
-      unique()
-    
-    for (j in items) {
+    if (ldp.access) {
+      ldp.utts <- ldp_utterances %>%
+        mutate(speaker = ifelse(speaker == "target_child",
+                                "child", "caregiver")) %>%
+        filter(speaker == i) %>%
+        select(gloss, age)
       
+      utts <- bind_rows(childes.utts, ldp.utts)
+    } else {
+      utts <- childes.utts
+    }
+    
+    # for each item, store count of tokens detected in each utterance
+    for (j in items) {
       search <- metadata %>%
         filter(survey_word == j) %>%
         pull(search_dictionary) %>%
@@ -60,9 +74,9 @@ for (measure in c("corpus", "survey")) {
       
       utts[str_detect(gloss, search),
            paste0(j) := str_count(gloss, search)]
-      
     }
     
+    # for each pair, store counts for utterances with CDL vs. ADL variants
     model.data.list <- list() 
     for (k in pairs) {
       CDL <- paste(gsub("_.*", "", k))
@@ -105,9 +119,9 @@ for (measure in c("corpus", "survey")) {
 
     }
     else {
+      # load survey data
       data <- read_csv("survey/anon-data/variant-probabilities.csv") %>%
         mutate(id = as.character(id))
-      metadata <- read_csv("item-metadata.csv")
       
       # transform probabilities for binomial regression (0s and 1s for variant types)
       model.data <- data %>%
@@ -124,7 +138,6 @@ for (measure in c("corpus", "survey")) {
         mutate(variant = 1)
       
       model.data <- bind_rows(model.data.ADL, model.data.CDL) %>%
-        # calculate age in months
         mutate(age = age/30.437, 
                speaker = case_when(
                  speaker == "child" ~ "child (survey)", 
@@ -144,6 +157,7 @@ fig.input.combined <- do.call(rbind, fig.input.list)
 
 fig.input.combined %>%
   mutate(pair = str_replace(pair, "_", "/"), 
+         # order pairs by child (corpus) estimated switch age 
          pair = factor(pair, levels = c("birdie/bird", "blankie/blanket", 
                                         "froggy/frog", "piggy/pig",
                                         "duckie/duck", "horsey/horse", "kitty/cat",
@@ -168,5 +182,6 @@ fig.input.combined %>%
         legend.position = "bottom", 
         strip.text = element_text(size = 22), 
         axis.text = element_text(size = 25))
+
 ggsave(paste0("combined/figs/bypair-shift-timing.png"), 
        height = 12, width = 18, dpi = 600, limitsize = FALSE)

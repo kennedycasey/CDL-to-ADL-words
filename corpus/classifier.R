@@ -5,9 +5,12 @@ library(tidymodels)
 library(pROC)
 library(xgboostExplainer)
 
+# set colors for plots
 speaker.colors <- c("child" = "#235789", 
                     "caregiver" = "#0288d1")
 
+# read in CHILDES linguistic input info
+# see https:github.com/kennedycasey/RegisterShift for scripts used to generate csvs
 caregiver <- read_csv("corpus/data/combined-other.csv") %>%
   filter(speaker_role %in% c("Mother", "Father")) %>%
   mutate(variant = ifelse(form == "CDS", 0, 1), 
@@ -27,16 +30,20 @@ child <- read_csv("corpus/data/combined-child.csv") %>%
   select(variant, lex.rarity, lex.complexity, n.words, n.verbs, age) %>%
   na.omit()
 
+# for both speaker types, run xgboost model with 4 linguistic features + age
 for (i in c("child", "caregiver")) {
-  dat <- data.frame(eval(as.symbol(i)))
+  data <- data.frame(eval(as.symbol(i)))
   
-  split <- initial_split(dat, strata = variant, prop = 0.9)
+  # 90/10 split for training and test sets
+  split <- initial_split(data, strata = variant, prop = 0.9)
   train <- training(split)
   test <- testing(split)
+  
+  # create cross-validation folds
   cv <- createFolds(train[,"variant"], k = 5)
   
   set.seed(123)
-  variant <- which(names(train) == "variant") # class column number
+  variant <- which(names(train) == "variant")
   xgb.train.data <- xgb.DMatrix(data.matrix(train[,-variant]), label = train[,variant], missing = NA)
   param <- list(objective = "binary:logistic", base_score = 0.5)
   xgboost.cv = xgb.cv(param = param, data = xgb.train.data, folds = cv, 
@@ -46,15 +53,17 @@ for (i in c("child", "caregiver")) {
   xgb.test.data = xgb.DMatrix(data.matrix(test[,-variant]), missing = NA)
   xgb.preds = predict(xgb.model, xgb.test.data)
   
-  # ROC on the test set
+  # store roc from the test set
   xgb.roc_obj <- roc(test[,variant], xgb.preds)
   assign(paste0("xgb.roc.", i), xgb.roc_obj)
   
+  # store feature importance scores
   col_names = attr(xgb.train.data, ".Dimnames")[[2]]
   xgb.imp <- xgb.importance(col_names, xgb.model)
   assign(paste0("xgb.imp.", i), xgb.imp)
 }
 
+# create combined roc plot for children and their caregivers
 data.frame(sensitivity = xgb.roc.caregiver$sensitivities, 
            specificity = xgb.roc.caregiver$specificities, 
            speaker = "caregiver") %>%
@@ -79,6 +88,7 @@ data.frame(sensitivity = xgb.roc.caregiver$sensitivities,
   theme(legend.position = "none")
 ggsave("corpus/figs/roc.png", width = 6, height = 6, dpi = 600)
 
+# create combined feature importance  plot for children and their caregivers
 mutate(xgb.imp.child, speaker = "child") %>%
   bind_rows(mutate(xgb.imp.caregiver, speaker = "caregiver")) %>%
   mutate(Feature = factor(Feature, levels = c("n.verbs", "n.words", "age",
@@ -96,12 +106,14 @@ mutate(xgb.imp.child, speaker = "child") %>%
         axis.title.y = element_blank(), 
         axis.title.x = element_text(size = 35))
 ggsave("corpus/figs/feature-importance.png", width = 10, height = 8, dpi = 600)
-# 
-# explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary",
-#                            base_score = 0.5, trees_idx = NULL)
-# pred.breakdown = explainPredictions(xgb.model, explainer, xgb.test.data)
-# showWaterfall(xgb.model, explainer, xgb.test.data, data.matrix(test[,-variant]),
-#               300, type = "binary")
 
-xgb.plot.tree(model = xgb.model, trees = 12, plot_width = 1000,
+# explain xgboost model
+explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary",
+                           base_score = 0.5, trees_idx = NULL)
+pred.breakdown = explainPredictions(xgb.model, explainer, xgb.test.data)
+showWaterfall(xgb.model, explainer, xgb.test.data, data.matrix(test[,-variant]),
+              300, type = "binary")
+
+# plot example tree - set "trees" to the tree number of interest
+xgb.plot.tree(model = xgb.model, trees = 1, plot_width = 1000,
               plot_height = 500)

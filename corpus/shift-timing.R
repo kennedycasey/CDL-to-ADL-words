@@ -7,19 +7,39 @@ library(lme4)
 library(ggeffects)
 library(broom.mixed)
 
+# load corpus data
 childes_utterances = data.table(get_utterances(collection = "Eng-NA"))
-ldp_utterances = data.table(read_csv("corpus/data/ldp-input.csv"))
 metadata <- read_csv("item-metadata.csv")
+
+# run with LDP data? (set ldp.access to TRUE if you have "ldp-input.csv")
+ldp.access <- TRUE
+
+if (ldp.access) {
+  ldp_utterances = data.table(read_csv("corpus/data/ldp-input.csv"))
+}
 
 # set colors for plots
 speaker.colors <- c("child" = "#235789", 
                     "caregiver" = "#0288d1")
 
+# create list of items and pairs
+items <- metadata %>%
+  filter(cogsci == "y") %>%
+  pull(survey_word) %>%
+  unique()
+
+pairs <- metadata %>%
+  filter(cogsci == "y") %>%
+  pull(pair) %>%
+  unique()
+
+# create empty lists to be populated with 4 types of information
 model.outputs.list <- list()
 shift.trends.list <- list()
 switch.points.list <- list()
 fig.input.list <- list()
 
+# for each speaker type, find all utterances with 1+ target items
 for (i in c("child", "caregiver")) {
       childes.utts <- childes_utterances %>%
         filter(speaker_role %in% c("Target_Child", "Mother", "Father")) %>%
@@ -30,26 +50,20 @@ for (i in c("child", "caregiver")) {
         filter(age < 84 & speaker == i) %>%
         select(gloss, age)
       
-      ldp.utts <- ldp_utterances %>%
-        mutate(speaker = ifelse(speaker == "target_child",
-                                "child", "caregiver")) %>%
-        filter(speaker == i) %>%
-        select(gloss, age)
-      
-      utts <- bind_rows(childes.utts, ldp.utts)
-
-      items <- metadata %>%
-        filter(cogsci == "y") %>%
-        pull(survey_word) %>%
-        unique()
-      
-      pairs <- metadata %>%
-        filter(cogsci == "y") %>%
-        pull(pair) %>%
-        unique()
-      
-      for (j in items) {
+      if (ldp.access) {
+        ldp.utts <- ldp_utterances %>%
+          mutate(speaker = ifelse(speaker == "target_child",
+                                  "child", "caregiver")) %>%
+          filter(speaker == i) %>%
+          select(gloss, age)
         
+        utts <- bind_rows(childes.utts, ldp.utts)
+      } else {
+        utts <- childes.utts
+      }
+      
+      # for each item, store count of tokens detected in each utterance
+      for (j in items) {
         search <- metadata %>%
           filter(survey_word == j) %>%
           pull(search_dictionary) %>%
@@ -57,12 +71,9 @@ for (i in c("child", "caregiver")) {
 
         utts[str_detect(gloss, search),
                         paste0(j) := str_count(gloss, search)]
-        
       }
-      
-      write_csv(utts, paste0("corpus-", i, ".csv"))
-      
-      
+
+      # for each pair, store counts for utterances with CDL vs. ADL variants
       model.data.list <- list() 
       for (k in pairs) {
         CDL <- paste(gsub("_.*", "", k))
@@ -102,17 +113,10 @@ for (i in c("child", "caregiver")) {
       
       fig.input.list[[i]] <- fig.input
       
-          # pre-registered model fails to converge
-          # model even with simplified random effects structure 
-          # (by-child or by-pair intercepts only) also fails to converge
           model <- glmer(variant ~ scale(age) + (1 + scale(age) | pair),
                          data = model.input,
                          family = binomial,
                          control = glmerControl(optimizer = "bobyqa"))
-          
-          # model <- glmer(variant ~ age, 
-          #              data = model.input, 
-          #              family = binomial)
           
           # store model output summary
           model.summary <- tidy(model) %>%
@@ -133,6 +137,7 @@ for (i in c("child", "caregiver")) {
           shift.trends.list[[i]] <- trend
           switch.points.list[[i]] <- xintercept
           
+          # plot overall shift trajectory (by speaker type)
           ggplot() + 
             geom_smooth(data = model.input,
                         aes(x = age, y = variant, group = pair),
@@ -152,6 +157,7 @@ for (i in c("child", "caregiver")) {
           ggsave(paste0("corpus/figs/", i, ".png"), dpi = 300, height = 5, width = 6)
 }
 
+# plot item-pair shift trajectories for child and caregiver speakers
 fig.input.combined <- do.call(rbind, fig.input.list)
           ggplot(fig.input.combined, 
                  aes(x = age, y = variant, color = speaker, fill = speaker)) +

@@ -4,7 +4,7 @@ library(lme4)
 library(ggeffects)
 library(broom.mixed)
 
-# read in data
+# read in survey data
 data <- read_csv("survey/anon-data/variant-probabilities.csv") %>%
   mutate(id = as.character(id))
 metadata <- read_csv("item-metadata.csv")
@@ -32,9 +32,12 @@ model.data <- bind_rows(model.data.ADL, model.data.CDL) %>%
 speaker.colors <- c("child" = "#C1292E", 
                     "caregiver" = "#F8766D")
 
+# create empty lists to be populated with 3 types of information
 model.outputs.list <- list()
 shift.trends.list <- list()
 switch.points.list <- list()
+
+# for each speaker type and subset of the data, find all utterances with 1+ target items
 for (i in c("child", "caregiver")) {
   for (j in c("full", "cogsci")) {
     
@@ -57,8 +60,7 @@ for (i in c("child", "caregiver")) {
     }
     
     # pre-registered model fails to converge
-    # model even with simplified random effects structure 
-    # (by-child or by-pair intercepts only) also fails to converge
+    # model even with simplified random effects structure (by-child or by-pair intercepts only) also fails to converge
     # model <- glmer(variant ~ scale(age) + (1 + scale(age) | pair) + (1 + scale(age) | id),
     #                data = model.input,
     #                family = binomial,
@@ -88,6 +90,7 @@ for (i in c("child", "caregiver")) {
     shift.trends.list[[model.type]] <- trend
     switch.points.list[[model.type]] <- xintercept
     
+    # plot overall shift trajectory (by speaker type)
     ggplot() + 
       geom_smooth(data = model.input,
                   aes(x = age/12, y = variant, group = pair),
@@ -106,6 +109,7 @@ for (i in c("child", "caregiver")) {
       coord_cartesian(ylim = c(0, 1))
       ggsave(paste0("survey/figs/", i, "-", j, ".png"), dpi = 300, height = 5, width = 6)
       
+      # plot item-pair shift trajectories for child and caregiver speakers 
       fig.input %>%
       mutate(pair = str_replace(pair, "_", "/")) %>%
       ggplot(aes(x = age/12, y = variant, color = speaker, fill = speaker)) +
@@ -139,7 +143,7 @@ switch.points <- do.call(rbind, switch.points.list) %>%
   rename(., age = `.`) %>%
   write_csv("survey/model-outputs/switch-points.csv")
 
-# correlations ------------------------------------------------------------
+# calculate and plot correlations between individual speakers within dyads
 overall.cor <- data %>%
   left_join(select(metadata, pair, cogsci)) %>%
   filter(cogsci == "y") %>%
