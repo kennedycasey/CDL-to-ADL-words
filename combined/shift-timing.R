@@ -8,7 +8,7 @@ library(ggeffects)
 library(broom.mixed)
 
 childes_utterances = data.table(get_utterances(collection = "Eng-NA"))
-ldp_utterances = data.table(read_csv("corpus/ldp_data_prepped.csv"))
+ldp_utterances = data.table(read_csv("corpus/data/ldp-input.csv"))
 metadata <- read_csv("item-metadata.csv")
 
 # set colors for plots

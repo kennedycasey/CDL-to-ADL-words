@@ -63,16 +63,16 @@ data.frame(sensitivity = xgb.roc.caregiver$sensitivities,
                        speaker = "child")) %>%
   ggplot(aes(x = specificity, y = sensitivity, color = speaker)) + 
   scale_x_reverse() +
-  geom_point(size = 0.75) + 
+  geom_point(size = 1.25) + 
   geom_abline(intercept = 1, linetype = "dotted") + 
   annotate(geom = "label", x = 0.2, y = 0.45, 
            label = paste0("AUC: ", round(auc(xgb.roc.child), 2)), 
            color = speaker.colors["child"], 
-           size = 6) +
+           size = 8) +
   annotate(geom = "label", x = 0.2, y = 0.35, 
            label = paste0("AUC: ", round(auc(xgb.roc.caregiver), 2)), 
            color = speaker.colors["caregiver"], 
-           size = 6) +
+           size = 8) +
   scale_color_manual(values = speaker.colors) +
   labs(x = "Specificity", y = "Sensitivity", slope = 1) + 
   theme_test(base_size = 25) +
@@ -89,11 +89,12 @@ mutate(xgb.imp.child, speaker = "child") %>%
   geom_bar(stat = "identity", position = "dodge") +
   scale_fill_manual(values = speaker.colors) + 
   labs(x = "Feature Importance") + 
-  theme_test(base_size = 25) +
+  theme_test(base_size = 27) +
   theme(legend.position = c(0.85, 0.12),
         legend.key.size = unit(5, 'mm'),
         legend.title = element_blank(),
-        axis.title.y = element_blank())
+        axis.title.y = element_blank(), 
+        axis.title.x = element_text(size = 35))
 ggsave("corpus/figs/feature-importance.png", width = 10, height = 8, dpi = 600)
 # 
 # explainer = buildExplainer(xgb.model, xgb.train.data, type = "binary",

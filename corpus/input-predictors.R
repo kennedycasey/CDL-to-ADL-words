@@ -2,6 +2,8 @@ library(tidyverse)
 library(lme4)
 library(broom.mixed)
 library(ggeffects)
+library(ggpubr)
+library(grid)
 
 input_predictors <- c("lex.rarity", 
                       "lex.complexity",
@@ -56,8 +58,7 @@ ggplot(summary.input, aes(x = speaker, y = mean, fill = speaker,
   guides(color = "none", fill = "none") +
   labs(y = "Mean Feature Value (scaled)") +
   theme_test(base_size = 25) + 
-  theme(legend.position = "bottom",
-        legend.key.size = unit(4, "mm"),
+  theme(legend.position = "bottom", 
         axis.title.x = element_blank(), 
         legend.title = element_blank(), 
         legend.text = element_text(size = 20))
@@ -153,7 +154,9 @@ main.effects <- ggplot(filter(input.models.combined, type == "main_effect"),
   theme(legend.position = "none", 
         plot.title = element_text(hjust = 0.5), 
         axis.title = element_blank(), 
-        axis.text.y = element_text(hjust = 0.5))
+        axis.text.y = element_text(hjust = 0.5),
+        panel.background = element_rect(fill = "transparent", color = NA),  
+        plot.background = element_rect(fill = "transparent", color = NA))
 
 interactions <- ggplot(filter(input.models.combined, type == "interaction"), 
                        aes(x = Estimate, y = Predictor, color = speaker)) +
@@ -169,10 +172,12 @@ interactions <- ggplot(filter(input.models.combined, type == "interaction"),
         plot.title = element_text(hjust = 0.5), 
         axis.title = element_blank(), 
         axis.text.y = element_blank(), 
-        axis.ticks.y = element_blank())
+        axis.ticks.y = element_blank(), 
+        panel.background = element_rect(fill = "transparent", color = NA),  
+        plot.background = element_rect(fill = "transparent", color = NA))
 
 model.fig <- ggarrange(main.effects, interactions, widths = c(4.3, 3.2))
 
-annotate_figure(model.fig, bottom = textGrob("Coefficient Estimate", gp = gpar(fontsize = 25, face = "bold")),
-                left = textGrob("Linguistic Feature", rot = 90, vjust = 1, gp = gpar(fontsize = 25, face = "bold")))
+annotate_figure(model.fig, bottom = textGrob("Coefficient Estimate", gp = gpar(fontsize = 35, face = "bold")),
+                left = textGrob("Linguistic Feature", rot = 90, vjust = 1, gp = gpar(fontsize = 35, face = "bold")))
 ggsave("corpus/figs/predictor-model.png", width = 10, height = 8, dpi = 600)

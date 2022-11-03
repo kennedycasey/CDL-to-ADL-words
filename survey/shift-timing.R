@@ -29,8 +29,8 @@ model.data <- bind_rows(model.data.ADL, model.data.CDL) %>%
   left_join(select(metadata, pair, cogsci), by = "pair")
 
 # set colors for plots
-speaker.colors <- c("child" = "#23773B", 
-                    "caregiver" = "#23C889")
+speaker.colors <- c("child" = "#C1292E", 
+                    "caregiver" = "#F8766D")
 
 model.outputs.list <- list()
 shift.trends.list <- list()
@@ -118,7 +118,7 @@ for (i in c("child", "caregiver")) {
         coord_cartesian(ylim = c(0, 1)) +
         labs(x = "Age (years)", y = "Probability of producing ADL variant",
              color = "Speaker", fill = "Speaker") +
-        theme_test(base_size = 45) +
+        theme_test(base_size = 15) +
         theme(axis.title = element_text(face = "bold"), 
               legend.title = element_text(face = "bold"), 
               legend.position = "bottom")
